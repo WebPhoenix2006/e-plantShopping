@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './ProductList.css';
 import CartItem from './CartItem';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
+import './ProductList.css';
 
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
@@ -10,45 +10,54 @@ function ProductList({ onHomeClick }) {
     const [addedToCart, setAddedToCart] = useState({});
     const dispatch = useDispatch();
 
+    const cartItems = useSelector((state) => state.cart.items);
+    const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
     const plantsArray = [
         {
             category: "Air Purifying Plants",
             plants: [
                 {
+                    id: 1,
                     name: "Snake Plant",
                     image: "https://cdn.pixabay.com/photo/2021/01/22/06/04/snake-plant-5939187_1280.jpg",
                     description: "Produces oxygen at night, improving air quality.",
-                    cost: "$15"
+                    price: 15
                 },
                 {
+                    id: 2,
                     name: "Spider Plant",
                     image: "https://cdn.pixabay.com/photo/2018/07/11/06/47/chlorophytum-3530413_1280.jpg",
                     description: "Filters formaldehyde and xylene from the air.",
-                    cost: "$12"
+                    price: 12
                 },
                 {
+                    id: 3,
                     name: "Peace Lily",
                     image: "https://cdn.pixabay.com/photo/2019/06/12/14/14/peace-lilies-4269365_1280.jpg",
                     description: "Removes mold spores and purifies the air.",
-                    cost: "$18"
+                    price: 18
                 },
                 {
+                    id: 4,
                     name: "Boston Fern",
                     image: "https://cdn.pixabay.com/photo/2020/04/30/19/52/boston-fern-5114414_1280.jpg",
                     description: "Adds humidity to the air and removes toxins.",
-                    cost: "$20"
+                    price: 20
                 },
                 {
+                    id: 5,
                     name: "Rubber Plant",
                     image: "https://cdn.pixabay.com/photo/2020/02/15/11/49/flower-4850729_1280.jpg",
                     description: "Easy to care for and effective at removing toxins.",
-                    cost: "$17"
+                    price: 17
                 },
                 {
+                    id: 6,
                     name: "Aloe Vera",
                     image: "https://cdn.pixabay.com/photo/2018/04/02/07/42/leaf-3283175_1280.jpg",
                     description: "Purifies the air and has healing properties for skin.",
-                    cost: "$14"
+                    price: 14
                 }
             ]
         },
@@ -56,40 +65,46 @@ function ProductList({ onHomeClick }) {
             category: "Aromatic Fragrant Plants",
             plants: [
                 {
+                    id: 7,
                     name: "Lavender",
-                    image: "https://images.unsplash.com/photo-1611909023032-2d6b3134ecba?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    image: "https://images.unsplash.com/photo-1611909023032-2d6b3134ecba?q=80&w=1074&auto=format&fit=crop",
                     description: "Calming scent, used in aromatherapy.",
-                    cost: "$20"
+                    price: 20
                 },
                 {
+                    id: 8,
                     name: "Jasmine",
-                    image: "https://images.unsplash.com/photo-1592729645009-b96d1e63d14b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    image: "https://images.unsplash.com/photo-1592729645009-b96d1e63d14b?q=80&w=1170&auto=format&fit=crop",
                     description: "Sweet fragrance, promotes relaxation.",
-                    cost: "$18"
+                    price: 18
                 },
                 {
+                    id: 9,
                     name: "Rosemary",
                     image: "https://cdn.pixabay.com/photo/2019/10/11/07/12/rosemary-4541241_1280.jpg",
                     description: "Invigorating scent, often used in cooking.",
-                    cost: "$15"
+                    price: 15
                 },
                 {
+                    id: 10,
                     name: "Mint",
                     image: "https://cdn.pixabay.com/photo/2016/01/07/18/16/mint-1126282_1280.jpg",
                     description: "Refreshing aroma, used in teas and cooking.",
-                    cost: "$12"
+                    price: 12
                 },
                 {
+                    id: 11,
                     name: "Lemon Balm",
                     image: "https://cdn.pixabay.com/photo/2019/09/16/07/41/balm-4480134_1280.jpg",
                     description: "Citrusy scent, relieves stress and promotes sleep.",
-                    cost: "$14"
+                    price: 14
                 },
                 {
+                    id: 12,
                     name: "Hyacinth",
                     image: "https://cdn.pixabay.com/photo/2019/04/07/20/20/hyacinth-4110726_1280.jpg",
                     description: "Hyacinth is a beautiful flowering plant known for its fragrant.",
-                    cost: "$22"
+                    price: 22
                 }
             ]
         }
@@ -101,7 +116,7 @@ function ProductList({ onHomeClick }) {
         padding: '15px',
         display: 'flex',
         justifyContent: 'space-between',
-        alignIems: 'center',
+        alignItems: 'center',
         fontSize: '20px',
     };
     const styleObjUl = {
@@ -157,7 +172,9 @@ function ProductList({ onHomeClick }) {
                     </div>
                 </div>
                 <div style={styleObjUl}>
-                    <div> <a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Plants</a></div>
+                    <div> 
+                        <a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Plants</a>
+                    </div>
                     <div> 
                         <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
                             <h1 className='cart'>
@@ -168,25 +185,28 @@ function ProductList({ onHomeClick }) {
                                     <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" 
                                     fill="none" stroke="#faf9f9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                                 </svg>
+                                <span className="cart-count">{totalItems}</span> {/* ✅ show Redux cart quantity */}
                             </h1>
                         </a>
                     </div>
                 </div>
             </div>
+
             {!showCart ? (
                 <div className="product-grid">
                     {plantsArray.map((category, idx) => (
                         <div key={idx}>
                             <h2>{category.category}</h2>
-                            <div className="plants-row">
+                            <div className="product-list">
                                 {category.plants.map((plant, index) => (
-                                    <div className="plant-card" key={index}>
-                                        <img src={plant.image} alt={plant.name} className="plant-image" />
-                                        <h3>{plant.name}</h3>
+                                    <div className="product-card" key={index}>
+                                        <img src={plant.image} alt={plant.name} className="product-image" />
+                                        <h3 className='product-title'>{plant.name}</h3>
                                         <p>{plant.description}</p>
-                                        <p>{plant.cost}</p>
+                                        <p className='product-price'>${plant.price}</p>
                                         <button 
                                             onClick={() => handleAddToCart(plant)} 
+                                            className='product-button'
                                             disabled={addedToCart[plant.name]}>
                                             {addedToCart[plant.name] ? "Added to Cart" : "Add to Cart"}
                                         </button>
